@@ -24,17 +24,17 @@ func TestScanner_Scan(t *testing.T) {
     {s: "\n", tok: gofelex.WS, lit: "\n"},
 
     // Identifiers 
-    //{s: , tok: , lit: },
-    //{s: , tok: , lit: },
-    //{s: , tok: , lit: },
+    {s: `DBServerNode:myDB:openSession(_):?sessionID` , tok: gofelex.IDENT, lit: `DBServerNode:myDB:openSession(_):?sessionID`},
+    {s: `?node:ip:send(?srcIP,?destIP)`, tok: gofelex.IDENT , lit: `?node:ip:send(?srcIP,?destIP)`},
+    {s: `destIP`, tok: gofelex.IDENT, lit: `destIP`},
 
     // Keywords
-    {s: "Precedes", tok: gofelex.PRECEDES, lit: "Precedes"},
-    {s: "Within", tok: gofelex.WITHIN, lit: "Within"},
-    {s: "and", tok: gofelex.AND, lit: "and"},
-    {s: "or", tok: gofelex.OR, lit: "or"},
-    {s: "in", tok: gofelex.IN, lit: "in"},
-    //{s: `FlowsTo*`, tok: gofelex.FLOWSTO, lit: `FlowsTo*`},
+    {s: "Precedes", tok: gofelex.TEMPORAL, lit: "Precedes"},
+    {s: "Within", tok: gofelex.TEMPORAL, lit: "Within"},
+    {s: "and", tok: gofelex.LOGICAL, lit: "and"},
+    {s: "or", tok: gofelex.LOGICAL, lit: "or"},
+    {s: "in", tok: gofelex.CONDITION, lit: "in"},
+    {s: `FlowsTo*`, tok: gofelex.FLOW, lit: `FlowsTo*`},
   }
 
   for i, tt := range tests {
