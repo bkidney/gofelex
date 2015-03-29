@@ -11,7 +11,7 @@ import (
 // Main object is a Scanner with its read and unread function
 
 type Scanner struct {
-  reader *bufio.Reader
+  r *bufio.Reader
 }
 
 func NewScanner(r io.Reader) *Scanner {
@@ -30,7 +30,7 @@ func (s *Scanner) unread() { _ = s.r.UnreadRune() }
 
 
 // Scan() returns the next token and literal value
-func (s *Scanner) Scan() (tok Token), lit string) {
+func (s *Scanner) Scan() (tok Token, lit string) {
 
   ch := s.read()
 
@@ -41,7 +41,7 @@ func (s *Scanner) Scan() (tok Token), lit string) {
   } else if isLetter(ch) {
     s.unread()
     return s.scanIdent()
-  } else if isSpecialOperator() {
+  } else if isOperator(ch) {
     s.unread()
     return s.scanOperator()
   } else {
@@ -83,23 +83,24 @@ func (s *Scanner) scanIdent() (tok Token, lit string) {
     } else {
       buf.WriteRune(ch)
     }
+  }
 
-    switch strings.ToUpper(buf.String()) {
-    case "WITHIN":
-      return WITHIN, buf.String()
-    case "PRECEDES":
-      return PRECEDES, buf.String()
-    case "AND":
-      return AND, buf.String()
-    case "OR":
-      return OR, buf.String()
-    case "IN":
-      return IN, buf.String()
-    case "FLOWSTO"
-      return FLOWSTO, buf.String()
-    }
+  switch strings.ToUpper(buf.String()) {
+  case "WITHIN":
+    return WITHIN, buf.String()
+  case "PRECEDES":
+    return PRECEDES, buf.String()
+  case "AND":
+    return AND, buf.String()
+  case "OR":
+    return OR, buf.String()
+  case "IN":
+    return IN, buf.String()
+  case "FLOWSTO*":
+    return FLOWSTO, buf.String()
+  }
 
-    return IDENT, buf.String()
+  return IDENT, buf.String()
 }
 
 func (s *Scanner) scanOperator() (tok Token, lit string) {
@@ -108,12 +109,11 @@ func (s *Scanner) scanOperator() (tok Token, lit string) {
   switch ch {
   case eof:
     return EOF, ""
+  default:
+    return ILLEGAL, string(ch)
   }
 
 }
-
-
-
 
 // Utility functions
 
@@ -131,7 +131,7 @@ func isDigit(ch rune) bool {
 
 
 
-func isOperator(ch rune) {
+func isOperator(ch rune) bool {
  return (ch == eof)
 }
 
