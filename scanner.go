@@ -38,7 +38,7 @@ func (s *Scanner) Scan() (tok Token, lit string) {
   if isWhitespace(ch) {
     s.unread()
     return s.scanWhitespace()
-  } else if isLetter(ch) {
+  } else if isIdentChar(ch) {
     s.unread()
     return s.scanIdent()
   } else if isOperator(ch) {
@@ -77,7 +77,7 @@ func (s *Scanner) scanIdent() (tok Token, lit string) {
   for {
     if ch := s.read(); ch == eof {
       break
-    } else if !isLetter(ch) && !isDigit(ch) && ch != '_' {
+    } else if !isIdentChar(ch) {
       s.unread()
       break
     } else {
@@ -87,17 +87,17 @@ func (s *Scanner) scanIdent() (tok Token, lit string) {
 
   switch strings.ToUpper(buf.String()) {
   case "WITHIN":
-    return WITHIN, buf.String()
+    return TEMPORAL, buf.String()
   case "PRECEDES":
-    return PRECEDES, buf.String()
+    return TEMPORAL, buf.String()
   case "AND":
-    return AND, buf.String()
+    return LOGICAL, buf.String()
   case "OR":
-    return OR, buf.String()
+    return LOGICAL, buf.String()
   case "IN":
-    return IN, buf.String()
+    return CONDITION, buf.String()
   case "FLOWSTO*":
-    return FLOWSTO, buf.String()
+    return FLOW, buf.String()
   }
 
   return IDENT, buf.String()
@@ -129,7 +129,14 @@ func isDigit(ch rune) bool {
   return (ch >= '0' && ch <= '9')
 }
 
-
+func isIdentChar(ch rune) bool {
+  return isLetter(ch) ||
+    isDigit(ch) ||
+    ch == '?' || ch == '(' ||
+    ch == ')' || ch == '[' ||
+    ch == ',' || ch == ':' ||
+    ch == '*' || ch == '_'
+}
 
 func isOperator(ch rune) bool {
  return (ch == eof)

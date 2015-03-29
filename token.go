@@ -12,13 +12,9 @@ const (
   // Literals
   IDENT
 
-  // Misc Characters
-
-  // Keywords
-  WITHIN
-  PRECEDES
-  AND
-  OR
-  IN
-  FLOWSTO
+  // Operator Types 
+  LOGICAL
+  TEMPORAL
+  CONDITION
+  FLOW
 )
