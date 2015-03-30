@@ -22,6 +22,7 @@ func TestScanner_Scan(t *testing.T) {
     {s: `   `, tok: gofelex.WS, lit: `   `},
     {s: "\t", tok: gofelex.WS, lit: "\t"},
     {s: "\n", tok: gofelex.WS, lit: "\n"},
+    {s: "\n\n\t  \t\n", tok: gofelex.WS, lit: "\n\n\t  \t\n"},
 
     // Identifiers 
     {s: `DBServerNode:myDB:openSession(_):?sessionID` , tok: gofelex.IDENT, lit: `DBServerNode:myDB:openSession(_):?sessionID`},
