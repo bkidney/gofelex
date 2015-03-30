@@ -27,6 +27,7 @@ func TestScanner_Scan(t *testing.T) {
     {s: `DBServerNode:myDB:openSession(_):?sessionID` , tok: gofelex.IDENT, lit: `DBServerNode:myDB:openSession(_):?sessionID`},
     {s: `?node:ip:send(?srcIP,?destIP)`, tok: gofelex.IDENT , lit: `?node:ip:send(?srcIP,?destIP)`},
     {s: `destIP`, tok: gofelex.IDENT, lit: `destIP`},
+    {s: `[203.1.112.25]`, tok: gofelex.IDENT, lit: `[203.1.112.25]`},
 
     // Keywords
     {s: "Precedes", tok: gofelex.TEMPORAL, lit: "Precedes"},
