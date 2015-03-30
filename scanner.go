@@ -134,8 +134,9 @@ func isIdentChar(ch rune) bool {
     isDigit(ch) ||
     ch == '?' || ch == '(' ||
     ch == ')' || ch == '[' ||
-    ch == ',' || ch == ':' ||
-    ch == '*' || ch == '_'
+    ch == ']' || ch == ':' ||
+    ch == '*' || ch == '_' ||
+    ch == '.' || ch == ','
 }
 
 func isOperator(ch rune) bool {
